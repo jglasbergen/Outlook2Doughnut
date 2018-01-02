@@ -1,2 +1,6 @@
 venv/
 backend/static/bower_components
+frontend/bower_components
+.pyc
+
+
