@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+
+{% block header %}
+<link rel="import" href="{% static "bower_components/paper-card/paper-card.html" %}">
+<link rel="import" href="{% static "bower_components/paper-button/paper-button.html" %}">
+<link rel="import" href="{% static "src/data-elements/trend-chart.html" %}">
+<style>
+    .page {
+        display: block;      
+    }
+    paper-card {
+        min-width: 360px;
+        max-width: 1000px;
+    }
+    .page-row {
+        display: flex;     
+        flex-direction: column;
+        padding-top: 10px;
+    }
+    .page-col {
+        padding: 10px;
+    }
+    .top-card {
+        margin-top: 10px;
+        margin-left: 14px;
+        margin-right: 14px;
+    }
+</style>
+{% endblock header %}
+
+{% block content %}
+<div class="page">
+    <div class="page">
+        <div class="page-row">
+            <paper-card class="top-card" heading="Trend Analyse">
+                <div class="card-content"><trend-chart></trend-chart></div>
+            </paper-card>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% load render_bundle from webpack_loader %}
+
+{% block header %}
+    {% render_bundle 'chart' %}  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css"></link>
+{% endblock header %}
+    
+{% block content %}
+    <div id="chart" username={{request.user.username}}></div>
+{% endblock content %}
+
+{% block script %}
+
+{% endblock script %}

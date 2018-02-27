@@ -1,0 +1,46 @@
+// load the needed node modules
+var path = require("path");
+var webpack = require('webpack');
+var BundleTracker = require('webpack-bundle-tracker');
+ 
+// webpack project settings
+module.exports = {
+  context: __dirname,
+  entry: {
+          analyse: './reactcomp/chart/index.jsx',
+          agendaitems: './reactcomp/agendaitems/index.jsx',
+          categorieitems: './reactcomp/categorieitems/index.jsx',
+  },
+  output: {
+      path: path.resolve('./backend/static/bundles/'),
+      filename: "[name]-bundle.js",
+      hotUpdateChunkFilename: 'hot/hot-update.js',
+      hotUpdateMainFilename: 'hot/hot-update.json'
+  },
+ 
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.NoErrorsPlugin(), // don't reload if there is an error
+    new BundleTracker({path: __dirname, filename: './webpack-stats.json'})
+ 
+  ],
+ 
+    module: {
+  loaders: [
+    {
+      test: /\.jsx?$/,
+      exclude: /(node_modules)/,
+      loader: 'babel-loader', // 'babel-loader' is also a legal name to reference
+      query: {
+        presets: ['es2015', 'react']
+      }
+    },
+ 
+  ]
+},
+ 
+  resolve: {
+    modules: ['node_modules'],
+    extensions: ['.js', '.jsx']
+  },
+}

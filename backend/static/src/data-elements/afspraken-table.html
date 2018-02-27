@@ -1,0 +1,218 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/vaadin-valo-theme/vaadin-grid.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid.html">
+
+<dom-module id="afspraken-table">
+        <template>
+            <style>
+                :host {
+                    display: block;
+                }
+                vaadin-grid {
+                    width: 700px;
+                }
+                .right-align {
+                    text-align: right;
+                }
+                .details {
+                    align-items: center;
+                }
+            </style>
+            <vaadin-grid aria-label="Two-way Binding Example" items="[[categorien]]">
+    
+                    <vaadin-grid-column width="150px">
+                      <template class="header">Onderwerp</template>
+                      <template>[[item.Onderwerp]]</template>
+                    </vaadin-grid-column>
+              
+                    <vaadin-grid-column width="15px">
+                      <template class="header"><div class="right-align">Begintijd</div></template>
+                      <template><div class="right-align">[[item.Begintijd]]</div></template>
+                    </vaadin-grid-column>
+
+                    <vaadin-grid-column width="15px">
+                      <template class="header"><div class="right-align">Eindtijd</div></template>
+                      <template><div class="right-align">[[item.Eindtijd]]</div></template>
+                    </vaadin-grid-column>
+          
+                  </vaadin-grid>
+        </template>
+        <script>
+            Polymer({
+                is: 'afspraken-table',
+                ready: function() {
+                    this.categorien = [
+                        {
+                            "Categorieën": "Werkvloeren",
+                            "Onderwerp": "Dagstart",
+                            "Begintijd": "8:30:00",
+                            "Eindtijd": "9:00:00"
+                        },
+                        {
+                            "Categorieën": "Medewerkers trainen op positieve houding",
+                            "Onderwerp": "Bespreek feedback inwoners en familie",
+                            "Begintijd": "9:00:00",
+                            "Eindtijd": "11:00:00"
+                        },
+                        {
+                            "Categorieën": "Medewerkers trainen op positieve houding",
+                            "Onderwerp": "Voer persoonlijk gesprek met medewerker X",
+                            "Begintijd": "12:30:00",
+                            "Eindtijd": "13:30:00"
+                        },
+                        {
+                            "Categorieën": "Overig (geen doel in Hoshin)",
+                            "Onderwerp": "MT",
+                            "Begintijd": "11:00:00",
+                            "Eindtijd": "12:00:00"
+                        },
+                        {
+                            "Categorieën": "Werkvloeren",
+                            "Onderwerp": "Loop mee op afdeling X",
+                            "Begintijd": "13:30:00",
+                            "Eindtijd": "17:00:00"
+                        },
+                        {
+                            "Categorieën": "Werkvloeren",
+                            "Onderwerp": "Dagstart",
+                            "Begintijd": "8:30:00",
+                            "Eindtijd": "9:00:00"
+                        },
+                        {
+                            "Categorieën": "Werven vrijwilligers",
+                            "Onderwerp": "Zet campagne op t.b.v. werven nieuwe vrijwilligers",
+                            "Begintijd": "9:00:00",
+                            "Eindtijd": "12:00:00"
+                        },
+                        {
+                            "Categorieën": "Overig (geen doel in Hoshin)",
+                            "Onderwerp": "Schrijf rapportage over personenalamering",
+                            "Begintijd": "12:30:00",
+                            "Eindtijd": "14:30:00"
+                        },
+                        {
+                            "Categorieën": "Uitbereiden dagbestedingsactiviteiten",
+                            "Onderwerp": "Voer persoonlijk besprek met activiteitenbegeleider",
+                            "Begintijd": "14:30:00",
+                            "Eindtijd": "17:00:00"
+                        },
+                        {
+                            "Categorieën": "Werkvloeren",
+                            "Onderwerp": "Dagstart",
+                            "Begintijd": "8:30:00",
+                            "Eindtijd": "9:00:00"
+                        },
+                        {
+                            "Categorieën": "Proces samen een probleem oplossen verbeteren",
+                            "Onderwerp": "Kaizen met afdeling X ",
+                            "Begintijd": "9:00:00",
+                            "Eindtijd": "12:00:00"
+                        },
+                        {
+                            "Categorieën": "Overig (geen doel in Hoshin);Administratie",
+                            "Onderwerp": "Schrijf rapportage t.b.v. begroting ",
+                            "Begintijd": "12:30:00",
+                            "Eindtijd": "15:30:00"
+                        },
+                        {
+                            "Categorieën": "Overig (geen doel in Hoshin)",
+                            "Onderwerp": "Voer onderhoudsgesprek met leverancier",
+                            "Begintijd": "13:30:00",
+                            "Eindtijd": "16:00:00"
+                        },
+                        {
+                            "Categorieën": "Medewerkers trainen op positieve houding",
+                            "Onderwerp": "Coach medewerker Y",
+                            "Begintijd": "15:30:00",
+                            "Eindtijd": "17:00:00"
+                        },
+                        {
+                            "Categorieën": "Werkvloeren",
+                            "Onderwerp": "Dagstart",
+                            "Begintijd": "8:30:00",
+                            "Eindtijd": "9:00:00"
+                        },
+                        {
+                            "Categorieën": "Werven vrijwilligers",
+                            "Onderwerp": "Voer persoonlijk gesprek met de coördinator vrijwilligers ",
+                            "Begintijd": "9:00:00",
+                            "Eindtijd": "10:00:00"
+                        },
+                        {
+                            "Categorieën": "Uitbereiden dagbestedingsactiviteiten",
+                            "Onderwerp": "Overleg met collega manager X inzake dagbesteding",
+                            "Begintijd": "10:00:00",
+                            "Eindtijd": "11:30:00"
+                        },
+                        {
+                            "Categorieën": "Werkvloeren",
+                            "Onderwerp": "Loop mee op afdeling Z",
+                            "Begintijd": "11:30:00",
+                            "Eindtijd": "13:00:00"
+                        },
+                        {
+                            "Categorieën": "Werkvloeren",
+                            "Onderwerp": "Schrijf evaluatie over afdeling Z",
+                            "Begintijd": "16:00:00",
+                            "Eindtijd": "17:00:00"
+                        },
+                        {
+                            "Categorieën": "Werkvloeren",
+                            "Onderwerp": "Dagstart",
+                            "Begintijd": "8:30:00",
+                            "Eindtijd": "9:00:00"
+                        },
+                        {
+                            "Categorieën": "Overig (geen doel in Hoshin)",
+                            "Onderwerp": "Overleg met zorgkantoor en de gemeente ",
+                            "Begintijd": "9:00:00",
+                            "Eindtijd": "11:30:00"
+                        },
+                        {
+                            "Categorieën": "Medewerkers trainen op positieve houding",
+                            "Onderwerp": "Bespreek casus X inzake positieve houding",
+                            "Begintijd": "11:30:00",
+                            "Eindtijd": "14:00:00"
+                        },
+                        {
+                            "Categorieën": "Proces samen een probleem oplossen verbeteren",
+                            "Onderwerp": "Coach medewerker X bij probleemoplossend vermogen",
+                            "Begintijd": "14:30:00",
+                            "Eindtijd": "17:00:00"
+                        },
+                        {
+                            "Categorieën": "Pauze",
+                            "Onderwerp": "Lunch",
+                            "Begintijd": "12:00:00",
+                            "Eindtijd": "12:30:00"
+                        },
+                        {
+                            "Categorieën": "Pauze",
+                            "Onderwerp": "Lunch",
+                            "Begintijd": "12:00:00",
+                            "Eindtijd": "12:30:00"
+                        },
+                        {
+                            "Categorieën": "Pauze",
+                            "Onderwerp": "Lunch",
+                            "Begintijd": "12:00:00",
+                            "Eindtijd": "12:30:00"
+                        },
+                        {
+                            "Categorieën": "Pauze",
+                            "Onderwerp": "Lunch",
+                            "Begintijd": "13:00:00",
+                            "Eindtijd": "13:30:00"
+                        },
+                        {
+                            "Categorieën": "Pauze",
+                            "Onderwerp": "Lunch",
+                            "Begintijd": "14:00:00",
+                            "Eindtijd": "14:30:00"
+                        }
+                    ]
+                }
+            });
+        </script>
+    </dom-module>

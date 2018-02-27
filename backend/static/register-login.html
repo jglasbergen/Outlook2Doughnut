@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+
+
+{% block header %}
+    <link rel="import" href="{% static "src/forms/register-login.html" %}">
+
+    <link rel="manifest" href="{% static "/manifest.json" %}">
+    <link rel="shortcut icon" href="{% static "/favicon.ico" %}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="{% static "react-comp/css/main.c6e87fd2.css" %}" rel="stylesheet">
+
+
+{% endblock header %}
+
+{% block content %}
+
+<div id="root"></div>
+<script type="text/javascript" src="{% static "react-comp/js/main.4c1df6b7.js" %}"></script>
+
+{% endblock content %}

@@ -1,0 +1,56 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/vaadin-valo-theme/vaadin-grid.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid.html">
+
+
+
+<dom-module id="categorie-table">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            vaadin-grid {
+                width: 700px;
+            }
+            .right-align {
+                text-align: right;
+            }
+            .details {
+                align-items: center;
+            }
+        </style>
+        <vaadin-grid aria-label="Two-way Binding Example" items="[[categorien]]">
+    
+          <vaadin-grid-column width="125px">
+            <template class="header">Categorieën</template>
+            <template>[[item.categorie]]</template>
+          </vaadin-grid-column>
+    
+          <vaadin-grid-column width="25px">
+            <template class="header"><div class="right-align">% van Totale Tijdsduur</div></template>
+            <template><div class="right-align">[[item.percentage]] %</div></template>
+          </vaadin-grid-column>
+
+        </vaadin-grid>
+    </template>
+    <script>
+        Polymer({
+            is: 'categorie-table',
+            ready: function() {
+                this.categorien = [
+                        {"categorie": "Werven vrijwilligers",                           "percentage": 9.41 },
+                        {"categorie": "Medewerkers trainen op positieve houding",       "percentage": 16.47 },
+                        {"categorie": "Pauze",                                          "percentage": 5.88 },
+                        {"categorie": "Proces samen een probleem oplossen verbeteren",  "percentage": 12.94 },
+                        {"categorie": "Uitbreiden dagbestedingsactiviteiten",           "percentage": 9.41 },
+                        {"categorie": "Werkvloeren",                                    "percentage": 20 },
+                        {"categorie": "Overig (geen doel in Hoshin)",                   "percentage": 18.82 },
+                      ]
+            }
+        });
+
+
+    </script>
+</dom-module>

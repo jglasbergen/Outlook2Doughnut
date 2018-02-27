@@ -1,0 +1,71 @@
+{% load staticfiles %}
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+  <title>GO PA</title>
+
+  <script src="{% static "bower_components/webcomponentsjs/webcomponents-lite.js" %}"></script>
+  <link rel="import" href="{% static "bower_components/polymer/polymer.html" %}">
+  <link rel="import" href="{% static "bower_components/iron-icons/iron-icons.html" %}">
+  <link rel="import" href="{% static "bower_components/paper-icon-button/paper-icon-button.html" %}">
+  <!--<link rel="import" href="{% static "bower_components/iron-icons/maps-icons.html" %}">-->
+  <!--<link rel="import" href="{% static "bower_components/iron-icons/editor-icons.html" %}">-->
+  <!--<link rel="import" href="{% static "bower_components/paper-icon-button/paper-icon-button.html" %}">-->
+  <!--<link rel="import" href="{% static "bower_components/paper-item/paper-icon-item.html" %}">-->
+  <link rel="import" href="{% static "bower_components/app-layout/app-drawer-layout/app-drawer-layout.html" %}">
+  <link rel="import" href="{% static "bower_components/app-layout/app-drawer/app-drawer.html" %}">
+  <link rel="import" href="{% static "bower_components/app-layout/app-scroll-effects/app-scroll-effects.html" %}">
+  <link rel="import" href="{% static "bower_components/app-layout/app-header/app-header.html" %}">
+  <link rel="import" href="{% static "bower_components/app-layout/app-header-layout/app-header-layout.html" %}">
+  <link rel="import" href="{% static "bower_components/app-layout/app-toolbar/app-toolbar.html" %}">
+  <!--<link rel="import" href="{% static "bower_components/app-layout/demo/sample-content.html" %}">-->
+  
+  <link rel="import" href="{% static "src/ui-elements/nav-button.html" %}">
+  
+  <link rel="stylesheet" type="text/css" href="{% static "src/app-styles/app-styles.css" %}">
+
+  {% block header %}
+  {% endblock header %}
+
+</head>
+
+<body unresolved>
+
+  <app-drawer-layout>
+
+    <app-drawer slot="drawer">
+      <app-toolbar class="app-toolbar-font">Menu</app-toolbar>
+
+      <div role="listbox">
+        <nav-button buttontext="Analyse" url="{% url 'analyse' %}"></nav-button>
+        <nav-button buttontext="Trend" url="{% url 'trend' %}"></nav-button>
+        <nav-button buttontext="Beheer" url="{% url 'beheer' %}"></nav-button>
+      </div>   
+                             
+    </app-drawer>
+
+    <app-header-layout>
+
+      <app-header slot="header" reveals effects="waterfall">
+          <app-toolbar>
+              <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+              <div main-title class="app-header-font">GO Productiviteit Analyse</div>
+          </app-toolbar>
+      </app-header>
+
+      {% block content %}
+      {% endblock content %}
+
+    </app-header-layout>
+
+  </app-drawer-layout>
+  
+</body>
+
+</html>
+
+

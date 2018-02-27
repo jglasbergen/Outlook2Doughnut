@@ -1,6 +1,17 @@
 venv/
 backend/static/bower_components
 frontend/bower_components
+node_modules
 .pyc
 
 
+backend/__pycache__/__init__.cpython-36.pyc
+backend/__pycache__/admin.cpython-36.pyc
+backend/__pycache__/models.cpython-36.pyc
+backend/__pycache__/views.cpython-36.pyc
+backend/__pycache__/urls.cpython-36.pyc
+backend/migrations/__pycache__/__init__.cpython-36.pyc
+project/__pycache__/__init__.cpython-36.pyc
+project/__pycache__/settings.cpython-36.pyc
+project/__pycache__/urls.cpython-36.pyc
+project/__pycache__/wsgi.cpython-36.pyc

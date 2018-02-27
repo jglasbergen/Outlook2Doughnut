@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'backend',
+    'webpack_loader',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -52,11 +54,13 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'project.urls'
+LOGIN_URL = '/accounts/login'
+LOGIN_REDIRECT_URL = 'analyse'
+LOGOUT_REDIRECT_URL = '/accounts/login'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'frontend')],
         'DIRS': [os.path.join(BASE_DIR, 'backend/static')],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -121,3 +125,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+    }
+}
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        # 'rest_framework.authentication.SessionAuthentication',
+    ]
+}

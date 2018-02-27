@@ -14,9 +14,16 @@ Including another URLconf
     2. Import the include() function: from django.conf.urls import url, include
     3. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import url
-from backend.views import IndexView
+from django.conf.urls import include, url
+from django.contrib import admin
+from backend.views import AnalyseView, BeheerView, ChartView, LoginView, TrendView
 
 urlpatterns = [
-    url(r'', IndexView.as_view(), name='home'),
+    url(r'^analyse$', AnalyseView.as_view(), name='analyse'),
+    url(r'^chart$', ChartView.as_view(), name='chart'),
+    url(r'^beheer$', BeheerView.as_view(), name='beheer'),
+    url(r'^trend$', TrendView.as_view(), name='trend'),
+    url(r'^login$', LoginView.as_view(), name='login'),
+    url(r'^admin', admin.site.urls),
+    url('accounts/', include('django.contrib.auth.urls')),
 ]

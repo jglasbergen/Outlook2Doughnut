@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% load render_bundle from webpack_loader %}
+
+{% block header %}
+
+<link rel="stylesheet" type="text/css" href="{% static "styles/analyse.css" %}">
+
+{% render_bundle 'analyse' 'css' %}  
+{% render_bundle 'agendaitems' 'css' %}  
+{% render_bundle 'categorieitems' 'css' %}  
+
+{% endblock header %}
+
+{% block content %}
+
+<div class="page">
+    <div class="page-row">
+        <div class="analyse-card" id="analyse" datasetnaam={{dataset_naam}}></div>
+        <div class="page-col">
+            <div class="table-card" id="datatabel-1" username={{request.user.username}}></div>
+            <div class="table-card" id="datatabel-2" username={{request.user.username}}></div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+{% render_bundle 'analyse' 'js' %}
+{% render_bundle 'agendaitems' 'js' %}
+{% render_bundle 'categorieitems' 'js' %}
+{% endblock script %}

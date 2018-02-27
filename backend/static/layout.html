@@ -1,0 +1,68 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+  <title>GO Productiviteit Analyse</title>
+
+  <!-- Material tags -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-green.min.css">
+  <!-- END Material tags -->
+
+  <!--<link rel="stylesheet" type="text/css" href="{% static "src/app-styles/material.css" %}"> -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css"></link>
+  {% block header %}
+  {% endblock header %}
+
+</head>
+<body>   
+    <!-- Material Design Lite -->
+    <!-- Uses a header that scrolls with the text, rather than staying
+      locked at the top -->
+      <div class="mdl-layout mdl-js-layout">
+        <header class="mdl-layout__header mdl-layout--fixed-drawer">
+          <div class="mdl-layout__header-row">
+            <!-- Title -->
+          <span class="mdl-layout-title">GO Productiviteit Analyse</span>
+          <!-- Add spacer, to align navigation to the right -->
+          <div class="mdl-layout-spacer"></div>
+          <!-- Navigation -->
+          <nav class="mdl-navigation">
+            {% if request.user.username %}
+              <a class="mdl-navigation__link" href="{% url 'logout' %}">Logout</a>
+            {% else %}
+              <a class="mdl-navigation__link" href="{% url 'login' %}">Login</a>
+            {% endif %}
+          </nav>
+        </div>
+      </header>
+      {% if request.user.username %}
+        <div class="mdl-layout__drawer">
+          <span class="mdl-layout-title">MENU</span>
+          <nav class="mdl-navigation">
+              <a class="mdl-navigation__link" href="{% url 'analyse' %}">A n a l y s e</a>
+              <a class="mdl-navigation__link" href="{% url 'trend' %}">T r e n d</a>
+              <a class="mdl-navigation__link" href="{% url 'beheer' %}">B e h e e r</a>
+              <a class="mdl-navigation__link" href="{% url 'logout' %}">U i t l o g g e n</a>
+            </nav>
+          </div>
+      {% endif %}
+          <main class="mdl-layout__content">
+            <div class="page-content"><!-- Your content goes here --></div>          
+            {% block content %}
+            {% endblock content %}
+          </main>
+        </div>
+      <!-- END Material Design Lite -->
+
+      <!-- Material scripts -->
+        <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <!-- END Material scripts -->
+  {% block script %}
+  {% endblock script %}
+</body>
+</html>
+
