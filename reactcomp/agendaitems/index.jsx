@@ -4,21 +4,17 @@ var ReactDOM = require('react-dom');
 import AgendaItems from './table';
 
 // Parameter passed by chart.html
-const username = document.getElementById('datatabel-1').getAttribute("username");
+const dataset_naam = document.getElementById('agendatabel').getAttribute("datasetnaam");
 
 const TableCard = () => {
     return (
         <div>
-            <AgendaItems username={username}/>
+            <AgendaItems dataset_naam={dataset_naam}/>
         </div>
     )
 }
 
 ReactDOM.render(
     <TableCard />,
-    document.getElementById('datatabel-1')
-);
-ReactDOM.render(
-    <TableCard />,
-    document.getElementById('datatabel-2')
+    document.getElementById('agendatabel')
 );

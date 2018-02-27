@@ -23,7 +23,7 @@ from rest_framework.documentation import include_docs_urls
 from backend.views import AgendaItemViewset, PieChartViewset
 
 router = routers.DefaultRouter()
-router.register(r'agendaitems', AgendaItemViewset)
+router.register(r'agendaitems', AgendaItemViewset, base_name='agendaitems')
 router.register(r'piechartitems', PieChartViewset, base_name='piechart')
 
 urlpatterns = [

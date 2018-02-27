@@ -4,16 +4,17 @@ var ReactDOM = require('react-dom');
 import CategorieItems from './table';
 
 // Parameter passed by chart.html
-const username = document.getElementById('datatabel-2').getAttribute("username");
+const dataset_naam = document.getElementById('categorietabel').getAttribute("datasetnaam");
 
 const TableCard = () => {
     return (
         <div>
-            <CategorieItems username={username}/>
+            <CategorieItems dataset_naam={dataset_naam}/>
         </div>
     )
 }
+
 ReactDOM.render(
     <TableCard />,
-    document.getElementById('datatabel-2')
+    document.getElementById('categorietabel')
 );

@@ -1,7 +1,8 @@
 var React = require('react')
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+// import FlatButton from 'material-ui/FlatButton';
+import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
 import { Chart } from 'react-google-charts';
 import Cookies from 'js-cookie';
 
@@ -23,20 +24,7 @@ export default class Analyse extends React.Component {
             title: 'Analyse',
             options:    {title: 'Outlook Categorieën', 
                             pieHole: 0.4,
-                            // slices: {
-                            //             '5': {'offset': 0.2}
-                            //         }
                         },
-            dataSet:[
-                    ['Categorie', 'Percentage'],
-                    ['Werven vrijwilligers', 9.41],
-                    ['Medewerkers trainen op positieve houding', 16.47],
-                    ['Pauze', 5.88],
-                    ['Proces samen een probleem oplossen verbeteren', 12.94],
-                    ['Uitbreiden dagbestedingsactiviteiten', 9.41],
-                    ['Werkvloeren', 20],
-                    ['Overig (geen doel in Hoshin)', 18.82]
-                ],
             chart_events: [
                 {
                     eventName : 'select',
@@ -61,11 +49,9 @@ export default class Analyse extends React.Component {
         const { error, isLoaded, data } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
-          } else if (!isLoaded) {
-            return <div>Loading...</div>;
-          } else 
-            return (
-                <MuiThemeProvider>
+        } 
+        return (
+            <MuiThemeProvider>
                 <Card>
                     <CardTitle title={this.state.title} subtitle={this.state.dataset_naam} />
                     <CardText>
@@ -82,42 +68,40 @@ export default class Analyse extends React.Component {
             </MuiThemeProvider>
         );
     }
-    
-    componentDidMount() {
+
+    // Als component geladen wordt, haal de data op uit de DRF API    
+    componentWillMount() {
         this.fetchDataFromApi();
-        this.state.data.forEach((element) => console.log(element[0]));
-        console.log('this.state.data' + this.state.data);
     }
 
+    // Voer de API call uit
     fetchDataFromApi() {
         const url = "http://localhost:8000/api/piechartitems/";
     
-        this.setState({ isLoaded: false });
-    
+        this.setState({ isLoaded: false }); 
         fetch(url)
-          .then(res => res.json())
-          .then(res => {
-    
-            this.setState({
-              data: this.setJsonToArray(res),
-              error: null,
-              isLoaded: true,
-              refreshing: false
-            });
-          })
-          .catch(error => {
-            this.setState({ error, isLoaded : false });
-          })
-      };
+            .then(res => res.json())
+            .then(res => {
+                this.setState({
+                data: this.setJsonToArray(res),
+                error: null,
+                isLoaded: true,
+                refreshing: false
+                });
+            })
+            .catch(error => {
+                this.setState({ error, isLoaded : false });
+            })
+    };
 
-      setJsonToArray(json_object) {
+    // Zet Json object om naar array van objecten 
+    setJsonToArray(json_object) {
         var return_array= [];
-        return_array.push( ['Categorie', 'Percentage'] );
+        return_array.push( ['Categorie', 'Totaal'] );
         json_object.map(item => { 
-            return_array.push([item.categorie, Number(item.percentage)]);            
+            return_array.push([item.categorie, Number(item.sum_categorie)]);            
         })
-        console.log(return_array);
         return return_array;
-      }
+    }
 }
 

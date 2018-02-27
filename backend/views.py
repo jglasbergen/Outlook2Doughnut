@@ -13,6 +13,8 @@ from backend.models import DataSet, AgendaItem
 from backend.serializers import AgendaItemSerializer, PieChartSerializer
 
 # Create your views here.
+
+# Startview voor analyse.html
 @method_decorator(login_required, name='dispatch')
 class AnalyseView(generic.base.TemplateView):
     
@@ -26,15 +28,15 @@ class AnalyseView(generic.base.TemplateView):
         context['agendaitems'] = agendaitems
         return context    
 
-# PieChart viewset
-# Retourneer dict { categorie: string, percentage: number }
-class PieChartViewset(viewsets.ViewSet):
 
+# PieChart viewset tbv DRF API
+# Retourneer queryset { categorie: string, percentage: number }
+class PieChartViewset(viewsets.ViewSet):
     def list(self, request):
-        # queryset = AgendaItem.objects.all()
-        queryset_1 = AgendaItem.objects.all().aggregate(sum_tijdsduur = models.Sum('tijdsduur'))
+        dataset = DataSet.objects.latest('inleesdatum')
+        queryset_1 = AgendaItem.objects.filter(dataset = dataset).aggregate(sum_tijdsduur = models.Sum('tijdsduur'))
         totale_tijdsduur = queryset_1['sum_tijdsduur']
-        queryset = AgendaItem.objects.all().values('categorie').annotate(sum_categorie = models.Sum('tijdsduur'))
+        queryset = AgendaItem.objects.filter(dataset = dataset).values('categorie').annotate(sum_categorie = models.Sum('tijdsduur'))
         for item in queryset:
             item['percentage'] = item['sum_categorie'] / totale_tijdsduur
 
@@ -42,13 +44,17 @@ class PieChartViewset(viewsets.ViewSet):
         return Response(serializer.data)
 
 
+# AgendaItems tabel viewset tbv DRF API
+# Retourneer queryset { categorie: string, onderwerp: string, begintijd: string , eindtijd: string, tijdsduur: number }
+class AgendaItemViewset(viewsets.ViewSet):
+    def list(self, request):
+        dataset = DataSet.objects.latest('inleesdatum')
+        queryset = AgendaItem.objects.filter(dataset = dataset)
 
-# Categorie totalen tabel viewset
+        serializer = AgendaItemSerializer(queryset, many=True)
+        return Response(serializer.data)
 
-# AgendaItems tabel viewset
-class AgendaItemViewset(viewsets.ModelViewSet):
-    queryset = AgendaItem.objects.all()
-    
+
 
 class ChartView(generic.base.TemplateView):
     template_name = 'templates/analyse/chart.html'

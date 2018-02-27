@@ -26,7 +26,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: stretch;
     align-content: stretch;
     /* border: solid 1px yellow; */
@@ -50,7 +50,9 @@
 .table-card {
     text-align: center;
     display: inline;
-    min-width: 49.5%;
+    max-width: 48vw;
+    min-width: 43vw;
     max-height: 50vh;
+    /* padding: 10px; */
     /* border: solid 1px red; */
 }
