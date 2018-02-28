@@ -2,7 +2,7 @@ import _ from 'lodash'
 var React = require('react');
 import { Table } from 'semantic-ui-react'
 
-export default class CategorieItems extends React.Component {
+export default class AgendaItems extends React.Component {
   constructor(props) {
     super(props);
     this.handleSort = this.handleSort.bind(this);
@@ -72,7 +72,7 @@ export default class CategorieItems extends React.Component {
           {/* // Iterate over de array met items en maak een tabel regel per item */}
           { this.state.data.map((item) => {  
             return (
-              <Table.Row>
+              <Table.Row key={item.index}>
                 <Table.Cell>{item.categorie}</Table.Cell>
                 <Table.Cell>{item.onderwerp}</Table.Cell>
                 <Table.Cell textAlign='right'>{item.begintijd}</Table.Cell>
@@ -117,12 +117,13 @@ export default class CategorieItems extends React.Component {
     var begintijd = null;
     var tijdsduur = null;
     var categorie = null;
-    json_object.map(item => { 
+    json_object.map((item, index) => { 
       this.begintijd = item.begintijd;
       this.begintijd = this.begintijd.slice(0, this.begintijd.length - 3);
       this.categorie = item.categorie;
       this.categorie = this.categorie.slice(0, 20);
-      return_array.push({'onderwerp': item.onderwerp,
+      return_array.push({ 'index': index,
+                          'onderwerp': item.onderwerp,
                           'categorie': this.categorie,
                           'begintijd': this.begintijd, 
                           'tijdsduur': item.tijdsduur});  

@@ -8,7 +8,7 @@ const dataset_naam = document.getElementById('analyse').getAttribute("datasetnaa
 const AnalyseCard = () => {
     return (
         <div>
-            <Analyse dataset_naam={dataset_naam}/>
+            <Analyse dataset_naam={dataset_naam} handleClick={this.handleClick}/>
         </div>
     )
 }

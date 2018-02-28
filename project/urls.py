@@ -29,7 +29,7 @@ router.register(r'piechartitems', PieChartViewset, base_name='piechart')
 urlpatterns = [
     url(r'^', include('backend.urls')),
     url(r'^api/', include(router.urls)),
-    url(r'^admin/', admin.site.urls),
+    # url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # url(r'^docs/', include_docs_urls(title='My API service')),
 ]

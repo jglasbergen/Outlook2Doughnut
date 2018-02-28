@@ -28,7 +28,7 @@ export default class CategorieItems extends React.Component {
           {/* // Iterate over de array met items en maak een tabel regel per item */}
           { this.state.data.map((item) => {  
             return (
-              <Table.Row>
+              <Table.Row key={item.index}>
                 <Table.Cell>{item.categorie}</Table.Cell>
                 <Table.Cell textAlign='right'>{item.sum_categorie}</Table.Cell>
               </Table.Row>
@@ -75,8 +75,10 @@ export default class CategorieItems extends React.Component {
     // Initialiseer de variabelen voor de array en totalen teller
     var return_array= [];
     var teller = null
-    json_object.map(item => { 
-        return_array.push({'categorie': item.categorie, 'sum_categorie': item.sum_categorie});  
+    json_object.map((item, index) => { 
+        return_array.push({ 'index': index, 
+                            'categorie': item.categorie, 
+                              'sum_categorie': item.sum_categorie });  
         teller = teller + parseInt(item.sum_categorie, 10);       
     })
     // Zet de totaal teller op de state

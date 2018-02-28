@@ -7,9 +7,7 @@ var BundleTracker = require('webpack-bundle-tracker');
 module.exports = {
   context: __dirname,
   entry: {
-          analyse: './reactcomp/chart/index.jsx',
-          agendaitems: './reactcomp/agendaitems/index.jsx',
-          categorieitems: './reactcomp/categorieitems/index.jsx',
+          analysepage: './reactcomp/analyse/index.jsx',
   },
   output: {
       path: path.resolve('./backend/static/bundles/'),
@@ -34,6 +32,10 @@ module.exports = {
       query: {
         presets: ['es2015', 'react']
       }
+    },
+    { 
+      test: /\.css$/,
+      loaders: ["style-loader", "css-loader"]
     },
  
   ]

@@ -53,7 +53,7 @@ export default class Analyse extends React.Component {
         return (
             <MuiThemeProvider>
                 <Card>
-                    <CardTitle title={this.state.title} subtitle={this.state.dataset_naam} />
+                    <CardTitle title={this.state.title} subtitle={this.state.dataset_naam}/>
                     <CardText>
                         <Chart 
                             chartType='PieChart'

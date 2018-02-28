@@ -3,31 +3,13 @@
 {% load render_bundle from webpack_loader %}
 
 {% block header %}
-
-<link rel="stylesheet" type="text/css" href="{% static "styles/analyse.css" %}">
-
-{% render_bundle 'analyse' 'css' %}  
-{% render_bundle 'agendaitems' 'css' %}  
-{% render_bundle 'categorieitems' 'css' %}  
-
+    {% render_bundle 'analysepage' 'css' %}  
 {% endblock header %}
 
 {% block content %}
-
-<div class="page">
-    <div class="page-row">
-        <div class="analyse-card" id="analyse" datasetnaam={{dataset_naam}}></div>
-        <div class="page-col">
-            <div class="table-card" id="categorietabel" datasetnaam={{dataset_naam}}></div>
-            <div class="table-card" id="agendatabel" datasetnaam={{dataset_naam}}></div>
-        </div>
-    </div>
-</div>
-
+    <AnalysePage id="analysepage" datasetnaam={{dataset_naam}}/>
 {% endblock content %}
 
 {% block script %}
-{% render_bundle 'analyse' 'js' %}
-{% render_bundle 'agendaitems' 'js' %}
-{% render_bundle 'categorieitems' 'js' %}
+    {% render_bundle 'analysepage' 'js' %}
 {% endblock script %}
