@@ -17,6 +17,7 @@ export default class Analyse extends React.Component {
             refreshing: false,
             base_url: "http://localhost:8000/api/piechartitems/",
             dataset_naam: props.dataset_naam,
+            selectedCategorie: props.selectedCategorie,
             error: null,
             isLoaded: false,
             items: [],
@@ -31,10 +32,7 @@ export default class Analyse extends React.Component {
                     callback  : (Chart) => { 
                         var selectedItem = Chart.chart.getSelection()[0];
                         if (selectedItem) {
-                            console.log("Selected Item", selectedItem.row); 
-                            var slice_nummer = selectedItem.row;
-                            // Uitwerken hoe de slice uitgenomen kan worden op basis van de selectie!
-                            Chart.chart.setSelection({options: {slices: {slice_nummer:{ 'offset': 0.2} }}});
+                            this.props.onChange(this.state.data[selectedItem.row + 1][0]);
                         } else {
                             // Er is geklikt, maar er is blijkbaar geen item om mee te werken!
                             console.log("Chart", Chart); 

@@ -5,10 +5,12 @@ import { Table } from 'semantic-ui-react'
 export default class AgendaItems extends React.Component {
   constructor(props) {
     super(props);
-    this.handleSort = this.handleSort.bind(this);
+
     this.state = {
-      dataset_naam : props.dataset_naam,
+      dataset_naam: props.dataset_naam,
+      selectedCategorie: props.selectedCategorie,
       data: [],
+      filteredData: [],
       error: null,
       isLoaded: true,
       refreshing: false,
@@ -17,63 +19,22 @@ export default class AgendaItems extends React.Component {
     }
   }
 
-  handleSort(clickedColumn)  { 
-    const { column, data, direction } = this.state
-    if (column !== clickedColumn) {
-      this.setState({
-        column: clickedColumn,
-        data: _.sortBy(data, clickedColumn),
-        direction: 'ascending',
-      })
-
-      return
-    }
-
-    this.setState({
-      data: data.reverse(),
-      direction: direction === 'ascending' ? 'descending' : 'ascending',
-    })
-  }
-
-  handleFilter(clickedColumn)  { 
-    const { column, data, direction } = this.state
-    if (column !== clickedColumn) {
-      this.setState({
-        column: clickedColumn,
-        data: _.filter(data, {'categorie': 'Werkvloeren'}),
-        direction: 'ascending',
-      })
-
-      return
-    }
-
-    this.setState({
-      data: data.reverse(),
-      direction: direction === 'ascending' ? 'descending' : 'ascending',
-    })
-  }
-
-
   render() {
-    const { column, data, direction } = this.state
+    const { column, filteredData, direction, selectedCategorie } = this.state
     return (
       <Table striped size='small'>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell width={3} sorted={column === 'categorie' ? direction : null} 
-                          onClick={() => this.handleFilter('categorie')}>
-                Categorie</Table.HeaderCell>
-            <Table.HeaderCell width={6} onClick={() => this.handleFilter('categorie')}>Onderwerp</Table.HeaderCell>
+            <Table.HeaderCell width={6}>Onderwerp</Table.HeaderCell>
             <Table.HeaderCell width={2} textAlign='right'>Begintijd</Table.HeaderCell>
             <Table.HeaderCell width={2} textAlign='right'>Tijdsduur</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {/* // Iterate over de array met items en maak een tabel regel per item */}
-          { this.state.data.map((item) => {  
+          { this.state.filteredData.map((item) => {  
             return (
               <Table.Row key={item.index}>
-                <Table.Cell>{item.categorie}</Table.Cell>
                 <Table.Cell>{item.onderwerp}</Table.Cell>
                 <Table.Cell textAlign='right'>{item.begintijd}</Table.Cell>
                 <Table.Cell textAlign='right'>{item.tijdsduur}</Table.Cell>
@@ -81,10 +42,36 @@ export default class AgendaItems extends React.Component {
             );
           })}
         </Table.Body>
+        <Table.Footer>
+          <Table.Row>
+            <Table.HeaderCell><b>{this.state.selectedCategorie}</b></Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
+          </Table.Row>
+        </Table.Footer>
       </Table>
     )
   }
 
+  // Filter de dataset op basis van de nieuwe categorie
+  handleFilter(selectedCategorie)  { 
+    const { data, filteredData } = this.state
+    this.setState({
+      filteredData: _.filter(data, {'categorie': selectedCategorie}),
+    })
+  }
+
+  // We krijgen een props wijziging binnen
+  componentWillReceiveProps(nextprops) {
+    const { selectedCategorie } = this.state
+    // Check of er een nieuwe categorie geselecteerd is
+    // Onderneem dan de juiste stappen
+    if(selectedCategorie !== nextprops.selectedCategorie) {
+      this.setState({selectedCategorie: nextprops.selectedCategorie})
+      this.handleFilter(nextprops.selectedCategorie)
+    }
+  }
+  
   // Als component geladen wordt, haal de data op uit de DRF API
   componentWillMount() {
     this.fetchDataFromApi();
@@ -100,6 +87,7 @@ export default class AgendaItems extends React.Component {
       .then(res => {
         this.setState({
           data: this.setJsonToArray(res),
+          filteredData: this.setJsonToArray(res),
           error: null,
           isLoaded: true,
           refreshing: false
@@ -121,7 +109,7 @@ export default class AgendaItems extends React.Component {
       this.begintijd = item.begintijd;
       this.begintijd = this.begintijd.slice(0, this.begintijd.length - 3);
       this.categorie = item.categorie;
-      this.categorie = this.categorie.slice(0, 20);
+      // this.categorie = this.categorie.slice(0, 20);
       return_array.push({ 'index': index,
                           'onderwerp': item.onderwerp,
                           'categorie': this.categorie,
