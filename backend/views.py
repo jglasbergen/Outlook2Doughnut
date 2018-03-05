@@ -70,5 +70,11 @@ class LoginView(generic.base.TemplateView):
 
 
 class TrendView(generic.base.TemplateView):
-    
-    template_name = 'trend.html'
+
+    template_name = 'templates/trend/trend.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TrendView, self).get_context_data(**kwargs)
+        dataset = DataSet.objects.latest('inleesdatum')
+        context['dataset_naam'] = dataset.naam
+        return context  

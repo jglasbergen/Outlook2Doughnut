@@ -8,6 +8,7 @@ module.exports = {
   context: __dirname,
   entry: {
           analysepage: './reactcomp/analyse/index.jsx',
+          trendpage: './reactcomp/trend/index.jsx',
   },
   output: {
       path: path.resolve('./backend/static/bundles/'),
