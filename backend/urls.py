@@ -20,6 +20,7 @@ from backend.views import AnalyseView, BeheerView, ChartView, LoginView, TrendVi
 
 urlpatterns = [
     url(r'^analyse$', AnalyseView.as_view(), name='analyse'),
+    url(r'^$', AnalyseView.as_view(), name='analyse'),
     url(r'^chart$', ChartView.as_view(), name='chart'),
     url(r'^beheer$', BeheerView.as_view(), name='beheer'),
     url(r'^trend$', TrendView.as_view(), name='trend'),

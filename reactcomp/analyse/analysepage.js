@@ -25,7 +25,7 @@ class AnalysePage extends Component {
                 <div className="page">
                 <div className="page-row">
                     <Analyse  onChange={(selid) => this.handleCategorieChange(selid)}
-                        className="analyse-card" id="analyse" dataset_naam={this.state.dataset_naam} selectedCategorie={this.state.selectedCategorie}/>
+                            className="analyse-card" id="analyse" dataset_naam={this.state.dataset_naam} selectedCategorie={this.state.selectedCategorie}/>
                     <div className="page-col">
                         <div className="table-card">
                             <CategorieItems id="categorietabel" dataset_naam={this.state.dataset_naam}/>
