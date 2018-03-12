@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'underscore';
 import { Chart } from 'react-google-charts';
 import { Card, Radio } from 'semantic-ui-react';
 import './trend.css';
@@ -28,7 +27,9 @@ class Trend extends Component {
                 ["januari-2018",420,480,180,150,330,240,510,240,0],
                 ["februari-2018",480,420,160,150,360,300,240,510,150]
             ],
-            filteredData: []
+            filteredData: [],
+            filterData: [],
+            catArray: []
         }
 
         this.handleToggle = this.handleToggle.bind(this);
@@ -44,7 +45,7 @@ class Trend extends Component {
     }
 
     render() {
-        const { checked, data, isStacked } = this.state;
+        const { checked, data, filterData, isStacked } = this.state;
         return (
             <div className="Areachart">
               <Chart
@@ -77,7 +78,7 @@ class Trend extends Component {
         );
     }
     // Als component geladen wordt, haal de data op uit de DRF API    
-    componentWillMount() {
+    componentDidMount() {
         this.fetchDataFromApi();
     }
 
@@ -102,18 +103,40 @@ class Trend extends Component {
 
     // Zet Json object om naar array van objecten 
     setJsonToArray(json_object) {
-        var return_array= [];
-        var cat_array= [];
-        var uniq_cat_array= [];
-        return_array.push( ['Categorie', 'Datasetnaam', 'Sumcategorie'] );
-        json_object.map(item => { 
-            cat_array.push([item.categorie]);
-            return_array.push([item.categorie, item.dataset__naam, Number(item.sum_categorie)]);            
+        let return_array= [];
+        let cat_array= [];
+        let cur_cat = '';
+        let counter = 0;
+        json_object.map((item, index) => { 
+            if ( cur_cat !== item.categorie ) {
+                cur_cat = item.categorie;
+                counter = counter + 1;
+                cat_array.push([item.categorie, counter]);
+            } else {
+                cur_cat = '';
+            }
+            return_array.push([item.categorie, 
+                                item.dataset__naam, 
+                                Number(item.sum_categorie),
+                                counter]);
+            this.setState({catArray: cat_array})
         });
-        uniq_cat_array = _.unique(cat_array);
-        console.log(uniq_cat_array);
+        console.log(this.state.catArray);
         console.log(return_array);
+        this.filterDataArray();
+        console.log(this.state.filterData);
         return return_array;
+    }
+
+    filterDataArray() {
+        const { catArray, data, filterData} = this.state;
+        let locFilterData= [];
+        locFilterData.push(["Dataset"]);
+        catArray.map((item) => {
+            console.log(item);
+            locFilterData.push([ item[0] ]);
+        });
+        this.setState({filterData: locFilterData});
     }
 }
 
