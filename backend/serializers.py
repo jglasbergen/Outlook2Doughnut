@@ -7,15 +7,21 @@ class AgendaItemSerializer(serializers.ModelSerializer):
         # fields = ('categorie', 'onderwerp', 'begintijd', 'eindtijd', 'tijdsduur')
         fields = ('categorie', 'sum_categorie', 'percentage')
 
-class PieChartSerializer(serializers.Serializer):
-    categorie     = serializers.CharField(max_length=128)
-    percentage    = serializers.DecimalField(max_digits=5, decimal_places=2)
-    sum_categorie = serializers.CharField()
-
-
 class AgendaItemSerializer(serializers.Serializer):
     categorie = serializers.CharField(max_length=128)
     onderwerp = serializers.CharField(max_length=256)
     begintijd = serializers.TimeField()
     eindtijd  = serializers.TimeField()
     tijdsduur = serializers.IntegerField()
+
+class PieChartSerializer(serializers.Serializer):
+    categorie     = serializers.CharField(max_length=128)
+    percentage    = serializers.DecimalField(max_digits=5, decimal_places=2)
+    sum_categorie = serializers.CharField()
+
+
+class TrendviewSerializer(serializers.Serializer):
+    categorie     = serializers.CharField(max_length=128)
+    # percentage    = serializers.DecimalField(max_digits=5, decimal_places=2)
+    sum_categorie = serializers.CharField()
+    dataset__naam = serializers.CharField()

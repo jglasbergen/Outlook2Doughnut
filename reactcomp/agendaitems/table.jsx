@@ -73,7 +73,7 @@ export default class AgendaItems extends React.Component {
   }
   
   // Als component geladen wordt, haal de data op uit de DRF API
-  componentWillMount() {
+  componentDidMount() {
     this.fetchDataFromApi();
   }
 

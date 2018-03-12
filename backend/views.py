@@ -10,9 +10,10 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 # Import serializer --> moet nog gedefinieerd worden  in serializers.py
 from backend.models import DataSet, AgendaItem
-from backend.serializers import AgendaItemSerializer, PieChartSerializer
+from backend.serializers import AgendaItemSerializer, PieChartSerializer, TrendviewSerializer
 
-# Create your views here.
+#####################################################################
+# Views voor de "normale" url's
 
 # Startview voor analyse.html
 @method_decorator(login_required, name='dispatch')
@@ -26,9 +27,21 @@ class AnalyseView(generic.base.TemplateView):
         agendaitems = AgendaItem.objects.filter(dataset = dataset)
         context['dataset_naam'] = dataset.naam
         context['agendaitems'] = agendaitems
+        print(context)
         return context    
 
+class TrendView(generic.base.TemplateView):
 
+    template_name = 'templates/trend/trend.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TrendView, self).get_context_data(**kwargs)
+        dataset = DataSet.objects.latest('inleesdatum')
+        context['dataset_naam'] = dataset.naam
+        return context  
+
+######################################################################
+# Views voor de "Rest Framework" url's
 # PieChart viewset tbv DRF API
 # Retourneer queryset { categorie: string, percentage: number }
 class PieChartViewset(viewsets.ViewSet):
@@ -44,6 +57,16 @@ class PieChartViewset(viewsets.ViewSet):
         return Response(serializer.data)
 
 
+# Trendview viewset
+class TrendviewViewset(viewsets.ViewSet):
+    def list(self, request):
+        queryset = AgendaItem.objects.all().values('categorie', 'dataset__naam').annotate(sum_categorie = models.Sum('tijdsduur'))
+
+        serializer = TrendviewSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+
+
 # AgendaItems tabel viewset tbv DRF API
 # Retourneer queryset { categorie: string, onderwerp: string, begintijd: string , eindtijd: string, tijdsduur: number }
 class AgendaItemViewset(viewsets.ViewSet):
@@ -53,6 +76,7 @@ class AgendaItemViewset(viewsets.ViewSet):
 
         serializer = AgendaItemSerializer(queryset, many=True)
         return Response(serializer.data)
+
 
 
 
@@ -68,13 +92,3 @@ class LoginView(generic.base.TemplateView):
     template_name = 'login.html'
 #     success_url = reverse_lazy('analyse')
 
-
-class TrendView(generic.base.TemplateView):
-
-    template_name = 'templates/trend/trend.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(TrendView, self).get_context_data(**kwargs)
-        dataset = DataSet.objects.latest('inleesdatum')
-        context['dataset_naam'] = dataset.naam
-        return context  

@@ -1,0 +1,28 @@
+.Areachart
+{
+    margin: 10px;
+    padding-bottom: 10px;
+    border: solid 1px #ccc;
+    border-radius: 5px;
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(204,204,204,1);
+    -moz-box-shadow: 5px 5px 5px 0px rgba(204,204,204,1);
+    box-shadow: 5px 5px 5px 0px rgba(204,204,204,1);
+    min-width: 90vw;
+}
+
+.Cardcontent {
+    text-align: center;
+    padding: 5px;
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(204,204,204,1);
+    -moz-box-shadow: 5px 5px 5px 0px rgba(204,204,204,1);
+    box-shadow: 5px 5px 5px 0px rgba(204,204,204,1);
+}
+
+.Cardheader {
+    text-align: center;
+    padding: 5px;
+}
+
+.Slider {
+    padding: 6px 60px 10px 10px;
+}

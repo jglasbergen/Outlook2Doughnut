@@ -13,7 +13,4 @@ const AnalyseCard = () => {
     )
 }
 
-ReactDOM.render(
-    <AnalyseCard />,
-    document.getElementById('analyse')
-);
+ReactDOM.render(<AnalyseCard />, document.getElementById('analyse'));

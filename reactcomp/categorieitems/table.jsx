@@ -7,6 +7,7 @@ export default class CategorieItems extends React.Component {
 
     this.state = {
       dataset_naam : props.dataset_naam,
+      selectedCategorie: props.selectedCategorie,
       data: [],
       error: null,
       isLoaded: true,
@@ -16,6 +17,7 @@ export default class CategorieItems extends React.Component {
   }
 
   render() {
+    const { selectedCategorie, data, totaal_aantal_minuten } = this.state;
     return (
       <Table striped size='small'>
         <Table.Header>
@@ -26,27 +28,47 @@ export default class CategorieItems extends React.Component {
         </Table.Header>
         <Table.Body>
           {/* // Iterate over de array met items en maak een tabel regel per item */}
-          { this.state.data.map((item) => {  
-            return (
-              <Table.Row key={item.index}>
-                <Table.Cell>{item.categorie}</Table.Cell>
-                <Table.Cell textAlign='right'>{item.sum_categorie}</Table.Cell>
-              </Table.Row>
-            );
+          { data.map((item) => {  
+            let active_row = (item.categorie === selectedCategorie) ? 'active' : '';
+            { if (active_row === 'active') {
+              return (
+                <Table.Row key={item.index} active>
+                  <Table.Cell>{item.categorie}</Table.Cell>
+                  <Table.Cell textAlign='right'>{item.sum_categorie}</Table.Cell>
+                </Table.Row>
+              );
+            } else {
+              return (
+                <Table.Row key={item.index} >
+                  <Table.Cell>{item.categorie}</Table.Cell>
+                  <Table.Cell textAlign='right'>{item.sum_categorie}</Table.Cell>
+                </Table.Row>
+              );
+            }}
           })}
         </Table.Body>
         <Table.Footer>
           <Table.Row>
             <Table.HeaderCell textAlign='right'>Totaal</Table.HeaderCell>
-            <Table.HeaderCell textAlign='right'>{this.state.totaal_aantal_minuten}</Table.HeaderCell>
+            <Table.HeaderCell textAlign='right'>{totaal_aantal_minuten}</Table.HeaderCell>
           </Table.Row>
         </Table.Footer>
       </Table>
     )
   }
-
+  
+  componentWillReceiveProps(nextprops) {
+    const { selectedCategorie } = this.state
+    console.log('Will Receive Props......', nextprops);
+    // Check of er een nieuwe categorie geselecteerd is
+    // Onderneem dan de juiste stappen
+    if(selectedCategorie !== nextprops.selectedCategorie) {
+      this.setState({selectedCategorie: nextprops.selectedCategorie})
+     }
+  }
+  
   // Als component geladen wordt, haal de data op uit de DRF API
-  componentWillMount() {
+  componentDidMount() {
     this.fetchDataFromApi();
   }
 
