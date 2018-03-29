@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from backend.views import AnalyseView, BeheerView, ChartView, LoginView, TrendView
+from backend.views import AnalyseView, BeheerView, ChartView, LoginView, RegisterView, TrendView
 
 urlpatterns = [
     url(r'^analyse$', AnalyseView.as_view(), name='analyse'),
@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^beheer$', BeheerView.as_view(), name='beheer'),
     url(r'^trend$', TrendView.as_view(), name='trend'),
     url(r'^login$', LoginView.as_view(), name='login'),
+    url(r'^register$', RegisterView.as_view(), name='register'),
     url(r'^admin', admin.site.urls),
     url('accounts/', include('django.contrib.auth.urls')),
 ]

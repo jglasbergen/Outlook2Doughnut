@@ -15,7 +15,7 @@ export default class Analyse extends React.Component {
             data: [],
             error: null,
             refreshing: false,
-            base_url: "http://localhost:8000/api/piechartitems/",
+            base_url: "/api/piechartitems/",
             dataset_naam: props.dataset_naam,
             selectedCategorie: props.selectedCategorie,
             error: null,
@@ -23,8 +23,12 @@ export default class Analyse extends React.Component {
             items: [],
             dataset: 'Current Dataset',
             title: 'Analyse',
-            options:    {title: 'Outlook Categorieën', 
+            legendPosition: { position: 'labeled'},
+            options:    {title: 'Agenda Categorieën', 
                             pieHole: 0.4,
+                            legend: {position: 'labeled' , textStyle: {fontSize:12}},
+                            pieSliceTextStyle: { fontSize:12},
+                            pieSliceText: 'value',
                         },
             chart_events: [
                 {
@@ -74,7 +78,7 @@ export default class Analyse extends React.Component {
 
     // Voer de API call uit
     fetchDataFromApi() {
-        const url = "http://localhost:8000/api/piechartitems/";
+        const url = "/api/piechartitems/";
     
         this.setState({ isLoaded: false }); 
         fetch(url)

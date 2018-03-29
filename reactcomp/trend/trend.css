@@ -26,3 +26,7 @@
 .Slider {
     padding: 6px 60px 10px 10px;
 }
+
+.Tablecard {
+    min-width: 450px;
+}

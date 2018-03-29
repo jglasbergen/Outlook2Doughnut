@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% load render_bundle from webpack_loader %}
+
+{% block header %}
+    {% render_bundle 'login' 'css' %}  
+{% endblock header %}
+
+{% block content %}
+    <App id="login" />
+{% endblock content %}
+
+{% block script %}
+    {% render_bundle 'login' 'js' %}
+{% endblock script %}
+
+
+
+
+
+

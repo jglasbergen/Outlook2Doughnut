@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect, HttpResponse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import requires_csrf_token
 from django.core.urlresolvers import reverse_lazy
@@ -8,9 +10,9 @@ from django.contrib.auth import logout
 from django.db import models
 from rest_framework import viewsets
 from rest_framework.response import Response
-# Import serializer --> moet nog gedefinieerd worden  in serializers.py
+
 from backend.models import DataSet, AgendaItem
-from backend.serializers import AgendaItemSerializer, PieChartSerializer, TrendviewSerializer
+from backend.serializers import AgendaItemSerializer, DataSetSerializer, DSetSerializer, PieChartSerializer, TrendviewSerializer
 
 #####################################################################
 # Views voor de "normale" url's
@@ -24,10 +26,11 @@ class AnalyseView(generic.base.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AnalyseView, self).get_context_data(**kwargs)
         dataset = DataSet.objects.latest('inleesdatum')
+        datasets = DataSet.objects.order_by('-inleesdatum')
         agendaitems = AgendaItem.objects.filter(dataset = dataset)
         context['dataset_naam'] = dataset.naam
         context['agendaitems'] = agendaitems
-        print(context)
+        context['datasets'] = datasets
         return context    
 
 class TrendView(generic.base.TemplateView):
@@ -56,17 +59,14 @@ class PieChartViewset(viewsets.ViewSet):
         serializer = PieChartSerializer(queryset, many=True)
         return Response(serializer.data)
 
-
 # Trendview viewset
 class TrendviewViewset(viewsets.ViewSet):
     def list(self, request):
-        queryset = AgendaItem.objects.all().values('categorie', 'dataset__naam').annotate(sum_categorie = models.Sum('tijdsduur'))
+        queryset = AgendaItem.objects.all().values('categorie', 'dataset__naam', 'dataset__inleesdatum').annotate(sum_categorie = models.Sum('tijdsduur'))
 
         serializer = TrendviewSerializer(queryset, many=True)
         return Response(serializer.data)
     
-
-
 # AgendaItems tabel viewset tbv DRF API
 # Retourneer queryset { categorie: string, onderwerp: string, begintijd: string , eindtijd: string, tijdsduur: number }
 class AgendaItemViewset(viewsets.ViewSet):
@@ -77,8 +77,17 @@ class AgendaItemViewset(viewsets.ViewSet):
         serializer = AgendaItemSerializer(queryset, many=True)
         return Response(serializer.data)
 
+class DataSetViewSet(viewsets.ViewSet):
+    def list(self, request):
+        queryset = DataSet.objects.all()
 
+        serializer = DataSetSerializer(queryset, many=True)
+        return Response(serializer.data)
 
+class DSetViewSet(viewsets.ModelViewSet):
+    queryset = DataSet.objects.all()
+    serializer_class = DSetSerializer
+    
 
 class ChartView(generic.base.TemplateView):
     template_name = 'templates/analyse/chart.html'
@@ -87,8 +96,33 @@ class BeheerView(generic.base.TemplateView):
     # print("In Beheer View")
     template_name = 'beheer.html'
 
-class LoginView(generic.base.TemplateView):
-    # print("In LoginView")
-    template_name = 'login.html'
-#     success_url = reverse_lazy('analyse')
+class LoginView(generic.base.View):
+    def get(self, request):
+        return render(request, 'templates/login.html')
+        
+    def post(self, request):
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        print(user)
+
+        if user is not None:
+            if user.is_active:
+                print("Active User")
+                login(request, user)
+                return render(request, 'templates/analyse/analyse.html')
+            else:
+                return HttpResponse("Inactive user.")
+        else:
+            return render(request, 'templates/login.html')
+
+        return render(request, "templates/analyse/analyse.html")        
+
+class RegisterView(generic.base.View):
+    def post(self, request):
+        print("In registerview")
+        print(request.POST['username'])
+        print(request.POST['password'])
+        return render(request, 'templates/login.html')        
+
 

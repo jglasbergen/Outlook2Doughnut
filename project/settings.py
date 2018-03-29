@@ -54,9 +54,9 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'project.urls'
-LOGIN_URL = '/accounts/login'
-LOGIN_REDIRECT_URL = 'analyse'
-LOGOUT_REDIRECT_URL = '/accounts/login'
+# LOGIN_URL = '/login'
+# LOGIN_REDIRECT_URL = 'analyse'
+LOGOUT_REDIRECT_URL = '/login'
 
 TEMPLATES = [
     {

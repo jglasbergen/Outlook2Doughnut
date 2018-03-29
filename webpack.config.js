@@ -9,6 +9,7 @@ module.exports = {
   entry: {
           analysepage: './reactcomp/analyse/index.jsx',
           trendpage: './reactcomp/trend/index.jsx',
+          login: './reactcomp/login/index.js',
   },
   output: {
       path: path.resolve('./backend/static/bundles/'),
@@ -24,22 +25,29 @@ module.exports = {
  
   ],
  
-    module: {
-  loaders: [
-    {
-      test: /\.jsx?$/,
-      exclude: /(node_modules)/,
-      loader: 'babel-loader', // 'babel-loader' is also a legal name to reference
-      query: {
-        presets: ['es2015', 'react']
-      }
-    },
-    { 
-      test: /\.css$/,
-      loaders: ["style-loader", "css-loader"]
-    },
- 
-  ]
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        exclude: /(node_modules)/,
+        loader: 'babel-loader', // 'babel-loader' is also a legal name to reference
+        query: {
+          presets: ['es2015', 'react']
+        }
+      },
+      { 
+        test: /\.css$/,
+        loaders: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [
+          'url-loader?limit=10000',
+          'img-loader'
+        ]
+      },
+  
+    ]
 },
  
   resolve: {

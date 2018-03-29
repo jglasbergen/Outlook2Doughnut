@@ -34,10 +34,10 @@
         flex-direction: column;
     }
     .table-card {
-        display: block;
-        padding-top: 10px;
-        min-width: 95vw;
-        max-width: 95vw;
+        display: block !important;
+        padding-top: 10px !important;
+        min-width: 95vw !important;
+        max-width: 95vw !important;
     }
 }
 
@@ -46,6 +46,7 @@
     display: block;
     min-width: 90vw;
 }
+
 .table-card {
     text-align: center;
     display: inline;
