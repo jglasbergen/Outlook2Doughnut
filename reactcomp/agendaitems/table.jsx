@@ -79,7 +79,7 @@ export default class AgendaItems extends React.Component {
 
   // Voer de API call uit
   fetchDataFromApi() {
-    const url = "http://localhost:8000/api/agendaitems/";
+    const url = "/api/agendaitems/";
 
     this.setState({ isLoaded: false });
     fetch(url)

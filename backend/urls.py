@@ -14,18 +14,25 @@ Including another URLconf
     2. Import the include() function: from django.conf.urls import url, include
     3. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+from django.conf import settings
 from django.conf.urls import include, url
+from django.conf.urls.static import static
 from django.contrib import admin
-from backend.views import AnalyseView, BeheerView, ChartView, LoginView, RegisterView, TrendView
+from backend.views import AnalyseView, BeheerView, ChartView, DataSetFormView, LoginView, RegisterView, TrendView
 
 urlpatterns = [
     url(r'^analyse$', AnalyseView.as_view(), name='analyse'),
     url(r'^$', AnalyseView.as_view(), name='analyse'),
     url(r'^chart$', ChartView.as_view(), name='chart'),
     url(r'^beheer$', BeheerView.as_view(), name='beheer'),
+    url(r'^datasetform$', DataSetFormView.as_view(), name='datasetform'),
+    url(r'^datasetform/(?P<pk>\d+)/$', DataSetFormView.as_view(), name='datasetform'),
     url(r'^trend$', TrendView.as_view(), name='trend'),
     url(r'^login$', LoginView.as_view(), name='login'),
     url(r'^register$', RegisterView.as_view(), name='register'),
     url(r'^admin', admin.site.urls),
     url('accounts/', include('django.contrib.auth.urls')),
-]
+] 
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

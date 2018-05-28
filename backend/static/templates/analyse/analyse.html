@@ -5,9 +5,8 @@
 {% block header %}
     {% render_bundle 'analysepage' 'css' %}  
 {% endblock header %}
-
 {% block content %}
-    <AnalysePage id="analysepage" datasetnaam={{dataset_naam}} />
+    <AnalysePage id="analysepage" datasetnaam={{dataset_naam}} datasetpk={{datasetpk}} />
 {% endblock content %}
 
 {% block script %}

@@ -97,7 +97,7 @@ class Trend extends Component {
                             <Table.Body>
                                 { catArray.map((item, index) => {   
                                     return (
-                                    <Table.Row key={item[0]}>
+                                    <Table.Row key={index}>
                                         <Table.Cell>{item[0]}</Table.Cell>
                                         <Table.Cell textAlign='center'>
                                             <Checkbox slider 

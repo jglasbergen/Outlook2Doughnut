@@ -20,12 +20,11 @@ from django.contrib import admin
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 
-from backend.views import AgendaItemViewset, DataSetViewSet, DSetViewSet, PieChartViewset, TrendviewViewset
+from backend.views import AgendaItemViewset, DataSetViewSet, PieChartViewset, TrendviewViewset
 
 router = routers.DefaultRouter()
 router.register(r'agendaitems', AgendaItemViewset, base_name='agendaitems')
 router.register(r'datasetitems', DataSetViewSet, base_name='datasetitems')
-router.register(r'dsetitems', DSetViewSet, base_name='dsetitems')
 router.register(r'piechartitems', PieChartViewset, base_name='piechart')
 router.register(r'trendviewitems', TrendviewViewset, base_name='trendview')
 

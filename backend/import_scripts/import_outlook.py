@@ -10,7 +10,7 @@ def import_csv():
     Verzamel de naam van de wedstrijd, het wedstrijddeel en de csv file
     """
   
-    csv_filename = "outlook_export.csv"
+    csv_filename = "backend\import_scripts\outlook_export.csv"
     """
     Categorie�n,Onderwerp,Begintijd,Eindtijd
     """
@@ -19,10 +19,10 @@ def import_csv():
     dataReader = csv.reader(open(csv_filename, encoding='utf-8-sig'), delimiter=',', quotechar='"')
 
     # Haal de huidige gebruiker op    
-    current_user = User.objects.get(username='jaap')
+    current_user = User.objects.get(username='jaap.glasbergen@t-mc.nl')
     # Maak het dataset record aan met de 
     dataset = DataSet()
-    dataset.naam = "februari-2018"
+    dataset.naam = "april-2018"
     dataset.user = current_user
     dataset.save()
 
@@ -45,6 +45,7 @@ def import_csv():
         tijdsduur = ( (eindtijd - begintijd) // timedelta(minutes=1) )
         agendaitem.tijdsduur = tijdsduur
         # Voer nu de regel op in de DB
+        print(agendaitem)
         agendaitem.save()
 
  

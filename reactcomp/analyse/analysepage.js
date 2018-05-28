@@ -9,7 +9,8 @@ class AnalysePage extends Component {
         super(props);
         this.state = {
             selectedCategorie: 'Geen categorie gekozen',
-            dataset_naam: this.props.dataset_naam
+            dataset_naam: this.props.dataset_naam,
+            datasetpk: this.props.datasetpk
         }
     };
 
@@ -27,6 +28,7 @@ class AnalysePage extends Component {
                                 className="analyse-card" 
                                 id="analyse" 
                                 dataset_naam={this.state.dataset_naam} 
+                                datasetpk={this.state.datasetpk} 
                                 selectedCategorie={this.state.selectedCategorie}/>
                     <div className="page-col">
                         <div className="table-card">

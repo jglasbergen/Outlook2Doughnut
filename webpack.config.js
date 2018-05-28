@@ -10,6 +10,7 @@ module.exports = {
           analysepage: './reactcomp/analyse/index.jsx',
           trendpage: './reactcomp/trend/index.jsx',
           login: './reactcomp/login/index.js',
+          beheerpage: './reactcomp/beheer/index.jsx'
   },
   output: {
       path: path.resolve('./backend/static/bundles/'),

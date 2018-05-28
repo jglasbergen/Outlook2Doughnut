@@ -1,9 +1,12 @@
 from django.shortcuts import render
+from django import forms
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views import generic
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.utils.decorators import method_decorator
+from django.utils.text import slugify
 from django.views.decorators.csrf import requires_csrf_token
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import logout
@@ -12,7 +15,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from backend.models import DataSet, AgendaItem
-from backend.serializers import AgendaItemSerializer, DataSetSerializer, DSetSerializer, PieChartSerializer, TrendviewSerializer
+from backend.serializers import AgendaItemSerializer, DataSetSerializer, PieChartSerializer, TrendviewSerializer
+from backend.forms import DatasetForm
 
 #####################################################################
 # Views voor de "normale" url's
@@ -26,9 +30,11 @@ class AnalyseView(generic.base.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AnalyseView, self).get_context_data(**kwargs)
         dataset = DataSet.objects.latest('inleesdatum')
+        # dataset = DataSet.objects.latest('inleesdatum')
         datasets = DataSet.objects.order_by('-inleesdatum')
         agendaitems = AgendaItem.objects.filter(dataset = dataset)
         context['dataset_naam'] = dataset.naam
+        context['datasetpk'] = dataset.pk
         context['agendaitems'] = agendaitems
         context['datasets'] = datasets
         return context    
@@ -77,18 +83,43 @@ class AgendaItemViewset(viewsets.ViewSet):
         serializer = AgendaItemSerializer(queryset, many=True)
         return Response(serializer.data)
 
-class DataSetViewSet(viewsets.ViewSet):
-    def list(self, request):
-        queryset = DataSet.objects.all()
+# @method_decorator(login_required, name='dispatch')
+class DataSetFormView(generic.FormView):
+    template_name = 'templates/dataset/datasetform.html'
+    form_class = DatasetForm
+    success_url = '/beheer'
 
-        serializer = DataSetSerializer(queryset, many=True)
-        return Response(serializer.data)
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.naam = slugify(('%s' % obj.naam))
+        obj.user = self.request.user
+        # Check of dataset naam al voorkomt
+        checkdataset = DataSet.objects.filter(naam = obj.naam)
+        if checkdataset :
+            print('Dataset bestaat al')
+            form.add_error('naam', forms.ValidationError('Geef dataset een unieke naam'))
+            return super(DataSetFormView, self).form_invalid(form)
+        else :
+            print('Dataset bestaat nog niet')
+            
+        # Check of een keuze is gemaakt voor Outlook of Google
 
-class DSetViewSet(viewsets.ModelViewSet):
+        obj.save()
+        return super(DataSetFormView, self).form_valid(obj)
+
+    def get_context_data(self, **kwargs):
+        context = super(DataSetFormView, self).get_context_data(**kwargs)
+        getuser = self.request.GET.get('user')
+        user = User.objects.filter(username = getuser)
+        context['user'] = user
+        return context
+
+
+class DataSetViewSet(viewsets.ModelViewSet):
+    # queryset = DataSet.objects.latest('inleesdatum')
     queryset = DataSet.objects.all()
-    serializer_class = DSetSerializer
+    serializer_class = DataSetSerializer
     
-
 class ChartView(generic.base.TemplateView):
     template_name = 'templates/analyse/chart.html'
 

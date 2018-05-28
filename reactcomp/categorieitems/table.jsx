@@ -62,7 +62,7 @@ export default class CategorieItems extends React.Component {
     console.log('Will Receive Props......', nextprops);
     // Check of er een nieuwe categorie geselecteerd is
     // Onderneem dan de juiste stappen
-    if(selectedCategorie !== nextprops.selectedCategorie) {
+    if( selectedCategorie !== nextprops.selectedCategorie ) {
       this.setState({selectedCategorie: nextprops.selectedCategorie})
      }
   }
@@ -74,7 +74,7 @@ export default class CategorieItems extends React.Component {
 
   // Voer de API call uit
   fetchDataFromApi() {
-    const url = "http://localhost:8000/api/piechartitems/";
+    const url = "/api/piechartitems/";
 
     this.setState({ isLoaded: false });
     fetch(url)

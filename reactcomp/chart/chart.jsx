@@ -15,8 +15,9 @@ export default class Analyse extends React.Component {
             data: [],
             error: null,
             refreshing: false,
-            base_url: "/api/piechartitems/",
+            // base_url: "/api/piechartitems/",
             dataset_naam: props.dataset_naam,
+            datasetpk: props.datasetpk,
             selectedCategorie: props.selectedCategorie,
             error: null,
             isLoaded: false,
@@ -48,14 +49,14 @@ export default class Analyse extends React.Component {
         }
     
     render() {
-        const { error, isLoaded, data } = this.state;
+        const { error, isLoaded, data, title, dataset_naam, datasetpk } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         } 
         return (
             <MuiThemeProvider>
                 <Card>
-                    <CardTitle title={this.state.title} subtitle={this.state.dataset_naam}/>
+                    <CardTitle title={title} subtitle={dataset_naam}/>
                     <CardText>
                         <Chart 
                             chartType='PieChart'
@@ -72,8 +73,22 @@ export default class Analyse extends React.Component {
     }
 
     // Als component geladen wordt, haal de data op uit de DRF API    
-    componentWillMount() {
+    componentDidMount() {
         this.fetchDataFromApi();
+        this.fetchDataSets();
+    }
+
+    // Haal de verschillende datasets op via de API
+     fetchDataSets() {
+        const { filteredData } = this.state;
+        const dataseturl = "/api/datasetitems/";
+        const requestData = async () => {
+            const response = await fetch(dataseturl);
+            const json = await response.json();
+            console.log(json);
+            // this.setJsonToArray(json);
+        }
+        requestData();
     }
 
     // Voer de API call uit
@@ -96,7 +111,17 @@ export default class Analyse extends React.Component {
             })
     };
 
-    // Zet Json object om naar array van objecten 
+    // Zet piechartitems Json object om naar array van objecten 
+    setJsonToArray(json_object) {
+        var return_array= [];
+        return_array.push( ['Categorie', 'Totaal'] );
+        json_object.map(item => { 
+            return_array.push([item.categorie, Number(item.sum_categorie)]);            
+        })
+        return return_array;
+    }
+
+    // Zet dataset Json object om naar array van objecten
     setJsonToArray(json_object) {
         var return_array= [];
         return_array.push( ['Categorie', 'Totaal'] );
