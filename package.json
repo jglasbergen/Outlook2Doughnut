@@ -44,7 +44,7 @@
     "react-google-charts": "^1.5.5",
     "semantic-ui-css": "^2.3.0",
     "semantic-ui-react": "^0.78.2",
-    "underscore": "^1.8.3",
+    "underscore": "^1.12.1",
     "url-loader": "^1.0.1"
   }
 }
